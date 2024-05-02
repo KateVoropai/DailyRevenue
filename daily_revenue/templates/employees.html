@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Employees_page
+{% endblock %}
+
+
+{% block content %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2 mb-4 w-75">
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#add">+ Добавить</button>
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#change">+/- Изменить</button>
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#delete">- Удалить</button>
+  </div>
+  <div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить сотрудника</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <form action="{{ url_for('employees') }}" method="post">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="name" class="col-form-label">ФИО:</label>
+              <input type="text" class="form-control" name="name" id="name">
+            </div>
+            <div class="mb-3">
+              <label for="post" class="col-form-label">Должность:</label>
+              <input type="text" class="form-control" name= "post" id="post">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="change" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <form action="{{ url_for('employees_update') }}" method="post">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="id_employees" class="col-form-label">№ строки, которую хотите изменить:</label>
+              <input type="text" class="form-control" name= "id" id="id_employees">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="col-form-label">ФИО:</label>
+              <input type="text" class="form-control" name="name" id="name">
+            </div>
+            <div class="mb-3">
+              <label for="post" class="col-form-label">Должность:</label>
+              <input type="text" class="form-control" name= "post" id="post">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Удалить</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <form action="{{ url_for('employees_delete') }}" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="id_employees" class="col-form-label">№ строки, которую хотите удалить:</label>
+            <input type="text" class="form-control" name= "id" id="id_employees">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+<table class="table table-hover table-bordered w-75 p-3">
+  <thead class="table-light fs-5">
+    <tr>
+      <th scope="col" class="text-center">#</th>
+      <th scope="col" class="text-center">ФИО</th>
+      <th scope="col" class="text-center">Должность</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider fs-6">
+    {% for i in employees %}
+    <tr>
+      <th scope="row" class="text-center">{{ i.id }}</th>
+      <td>{{ i.name }}</td>
+      <td>{{ i.post }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

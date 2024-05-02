@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Price_page
+{% endblock %}
+
+
+{% block content %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2 mb-4 w-50">
+<button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#add">+ Добавить</button>
+<button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#change">+/- Изменить</button>
+<button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#delete">- Удалить</button>
+</div>
+<div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить расценку</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <form action="{{ url_for('calculate') }}" method="post">
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="name_service" class="form-label">Наименование услуги:</label>
+            <input list="id_price" type="text" class="form-control" name="name_service" id="name_service">
+            <datalist id="id_price">
+              {% for i in price %}
+              <option>{{ i.name_service }}</option>
+              {% endfor %}
+            </datalist>
+          </div>
+          <div class="mb-3">
+            <label for="percent" class="col-form-label">З/П, %:</label>
+            <input type="text" class="form-control" name="percent" id="percent">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="change" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <form action="{{ url_for('calculate_update') }}" method="post">
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="id_calculate" class="col-form-label">№ строки, которую хотите изменить:</label>
+            <input type="text" class="form-control" name= "id" id="id_calculate">
+          </div>
+          <div class="mb-3">
+            <label for="name_service" class="col-form-label">Наименование услуги:</label>
+            <input list="id_price" type="text" class="form-control" name="name_service" id="name_service">
+            <datalist id="id_price">
+              {% for i in price %}
+              <option>{{ i.name_service }}</option>
+              {% endfor %}
+            </datalist>
+          </div>
+          <div class="mb-3">
+            <label for="percent" class="col-form-label">З/П, %:</label>
+            <input type="text" class="form-control" name="percent" id="percent">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Удалить</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <form action="{{ url_for('calculate_delete') }}" method="post">
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="id_calculate" class="col-form-label">№ строки, которую хотите удалить:</label>
+            <input type="text" class="form-control" name= "id" id="id_calculate">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<table class="table table-hover table-bordered w-50 p-3">
+  <thead class="table-light fs-4">
+    <tr>
+      <th scope="col" class="text-center">#</th>
+      <th scope="col" class="text-center">Наименование услуги</th>
+      <th scope="col" class="text-center">Процент з/п</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider fs-6">
+    {% for i in calculate %}
+    <tr>
+      <th scope="row" class="text-center">{{ i.id }}</th>
+      <td>{{ i.name_service }}</td>
+      <td>{{ i.percent }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

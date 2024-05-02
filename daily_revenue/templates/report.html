@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Price_page
+{% endblock %}
+
+
+{% block content %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2 mb-4 w-75">
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#display">Сформировать ведомость</button>
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#add">+ Добавить</button>
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#change">+/- Изменить</button>
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#delete">- Удалить</button>
+</div>
+<div class="modal fade" id="display" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Введите дату, на которую хотите сформировать отчет</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <form action="{{ url_for('report_display') }}" method="post">
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="col-form-label">Дата в формате ДД.ММ.ГГГГ:</label>
+            <input type="text" class="form-control" id="name" name="date">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сформировать ведомость</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить выполненную услугу</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <form action="{{ url_for('report') }}" method="post">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="name" class="col-form-label">Дата в формате ДД.ММ.ГГГГ (текущую дату можно не вводить):</label>
+              <input type="text" class="form-control" id="name" name="date">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="col-form-label">ФИО:</label>
+              <input list="id_employee" type="text" class="form-control" name="username" id="name">
+              <datalist id="id_employee">
+                {% for i in employees %}
+                <option>{{ i.name }}</option>
+                {% endfor %}
+              </datalist>
+            </div>
+            <div class="mb-3">
+              <label for="name_service" class="col-form-label">Наименование услуги:</label>
+              <input list="id_price" type="text" class="form-control" name="name_service" id="name_service">
+              <datalist id="id_price">
+                {% for i in price %}
+                <option>{{ i.name_service }}</option>
+                {% endfor %}
+              </datalist>
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="col-form-label">Стоимость услуги:</label>
+              <input type="text" class="form-control" name="amount" id="amount">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="change" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <form action="{{ url_for('report_update') }}" method="post">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="id_report" class="col-form-label">№ строки, которую хотите изменить:</label>
+              <input type="text" class="form-control" name= "id" id="id_report">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="col-form-label">Дата в формате ДД.ММ.ГГГГ:</label>
+              <input type="text" class="form-control" id="name" name="date">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="col-form-label">ФИО:</label>
+              <input type="text" class="form-control" id="name" name="username">
+            </div>
+            <div class="mb-3">
+              <label for="name_service" class="col-form-label">Наименование услуги:</label>
+              <input type="text" class="form-control" id="name_service" name="name_service">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="col-form-label">Стоимость услуги:</label>
+              <input type="text" class="form-control" id="name" name="amount">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Удалить</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <form action="{{ url_for('report_delete') }}" method="post">
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="id_report" class="col-form-label">№ строки, которую хотите удалить:</label>
+              <input type="text" class="form-control" name= "id" id="id_report">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+<table class="table table-hover table-bordered w-75 p-3">
+  <thead class="table-light fs-5">
+    <tr>
+      <th scope="col" class="text-center">#</th>
+      <th scope="col" class="text-center">Дата</th>
+      <th scope="col" class="text-center">ФИО</th>
+      <th scope="col" class="text-center">Наименование услуги</th>
+      <th scope="col" class="text-center">Стоимость, руб</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider fs-6">
+    {% for i in report %}
+    <tr>
+      <th scope="row" class="text-center">{{ i.id }}</th>
+      <td>{{ i.date.strftime('%d.%m.%Y') }}</td>
+      <td>{{ i.username }}</td>
+      <td>{{ i.name_service }}</td>
+      <td>{{ i.amount }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot class="table-group-divider fs-5"></tbody>
+    <tr>
+      <td colspan="4" scope="colgroup">ИТОГО</td>
+      <td>{{ total }}</td>
+    </tr>
+  </tfoot>
+</table>
+{% endblock %}

@@ -1,0 +1,13 @@
+body {
+    background-image: url('../images/img3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+i {
+    font-size: 24px;
+}
+
+.nav-pills li a:hover {
+    background-color: rgb(9, 9, 9);
+}

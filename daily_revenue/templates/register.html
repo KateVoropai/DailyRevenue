@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register_page
+{% endblock %}
+
+
+{% block content %}
+    <div class="container text-white mx-auto pt-5" style="width: 700px;">
+    <form action="" method="post">
+            <label for="name" class="form-label my-2">Имя пользователя</label>
+            <input type="text" class="form-control" name= "username" id="name" placeholder="Имя пользователя">
+            <label for="password" class="form-label my-2">Пароль</label>
+            <input type="password" class="form-control" name = "password" id="password" placeholder="Пароль">
+            <label for="password" class="form-label my-2">Подтвердите пароль</label>
+            <input type="password" class="form-control" name = "password2" id="password" placeholder="Подтвердите пароль">
+        <div class="d-grid gap-2 my-4">
+            <button type="submit" class="btn btn-dark">Войти</button>
+        </div>
+        <br>
+        <div class="checkbox mb-3">
+            <h6>У вас уже есть аккаунт?</h6>
+            <a class="btn btn-md btn-dark" href="{{ url_for('login') }}">Авторизоваться</a>
+        </div>
+    </form>
+    </div>
+{% endblock %}

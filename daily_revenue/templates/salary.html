@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Price_page
+{% endblock %}
+
+
+{% block content %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2 mb-4 w-75">
+  <button type="button" class="btn btn-outline-warning me-md-2" data-bs-toggle="modal" data-bs-target="#add">Сформировать ведомость</button>
+</div>
+<div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Введите дату, на которую хотите сформировать отчет</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <form action="{{ url_for('salary') }}" method="post">
+      <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="col-form-label">Дата в формате ДД.ММ.ГГГГ:</label>
+            <input type="text" class="form-control" id="name" name="date">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary">Сформировать</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<table class="table table-hover table-bordered w-75 p-3">
+  <thead class="table-light fs-5">
+    <tr>
+      <th scope="col" class="text-center">Дата</th>
+      <th scope="col" class="text-center">ФИО</th>
+      <th scope="col" class="text-center">Заработная плата, руб</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider fs-6">
+    {% for i in salary %}
+    <tr>
+      <td>{{ date.strftime('%d.%m.%Y') }}</td>
+      <td>{{ i[0] }}</td>
+      <td>{{ i[1] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot class="table-group-divider fs-5"></tbody>
+    <tr>
+      <td colspan="2" scope="colgroup">ИТОГО</td>
+      <td>{{ total }}</td>
+    </tr>
+  </tfoot>
+</table>
+{% endblock %}
